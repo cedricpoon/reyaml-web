@@ -7,9 +7,11 @@
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "brace": "^0.11.1",
+    "classnames": "^2.2.6",
     "i18next": "^19.1.0",
     "i18next-browser-languagedetector": "^4.0.1",
     "i18next-xhr-backend": "^3.2.2",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-ace": "^8.0.0",
     "react-d3-tree": "^1.16.1",
@@ -17,16 +19,20 @@
     "react-i18next": "^11.3.1",
     "react-reflex": "^3.0.22",
     "react-scripts": "3.3.1",
+    "react-spinkit": "^3.0.0",
     "reyaml-core": "^1.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "./node_modules/.bin/eslint ./src && react-scripts test --watchAll=false --passWithNoTests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "plugin:react/recommended"
+    ]
   },
   "browserslist": {
     "production": [
@@ -39,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.18.3"
   }
 }
