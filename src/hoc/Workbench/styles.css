@@ -5,6 +5,6 @@
   font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 
-.container .seperator {
+.seperator {
   width: 5px !important; /* important for overriding ReflexSplitter defined width */
 }
