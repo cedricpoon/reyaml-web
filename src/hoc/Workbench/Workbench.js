@@ -8,14 +8,18 @@ import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import { D3Tree } from 'component';
 import './styles.css';
-
-const D3Tree = React.lazy(() => import('component/D3Tree/D3Tree'));
 
 class Workbench extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { yamlText: '', d3Object: { name: props.t('treePlaceholder') }, lineNo: 0, firstTime: true };
+    this.state = { 
+      yamlText: '', 
+      d3Object: { name: props.t('treePlaceholder') }, 
+      lineNo: 0,
+      shouldRenderD3Object: false
+    };
   }
 
   componentDidMount() {
@@ -27,46 +31,46 @@ class Workbench extends React.Component {
   }
 
   componentDidUpdate() {
-    this.setState({ firstTime: false });
-    this._renderD3Object();
+    if (this.state.shouldRenderD3Object)
+      setTimeout(() => { this.renderD3Object() })
   }
 
-  _renderD3Object = () => {
+  onChange = (newValue) => {
+    const { row } = this.AceEditor.editor.selection.getCursor();
+    let lineNo = this.state.lineNo;
+    if (!Ryaml.isJunkLine({ line: newValue.split('\n')[row] }))
+      lineNo = row - new Ryaml(newValue).countJunkLine({ lineNo: row });
+    this.props.loader.show(() => {
+      this.setState({ 
+        yamlText: newValue,
+        lineNo,
+        shouldRenderD3Object: true,
+      });
+    });
+  }
+
+  onCursorChange = () => {
+    const { row } = this.AceEditor.editor.selection.getCursor();
+    if (!Ryaml.isJunkLine({ line: this.state.yamlText.split('\n')[row] })) {
+      const lineNo = row - new Ryaml(this.state.yamlText).countJunkLine({ lineNo: row });
+      if (lineNo !== this.state.lineNo)
+        this.props.loader.show(() => {
+          this.setState({ lineNo, shouldRenderD3Object: true });
+        });
+    }
+  }
+
+  renderD3Object = () => {
     const o = new Ryaml(this.state.yamlText)
       .toRjson({ profile: 'd3Tree' })
       .markLine({ lineNo: this.state.lineNo })
       .truncate({ lineNo: this.state.lineNo, level: 2, siblingSize: 2 })
       .toD3({ profile: 'd3Tree' });
-    this.setState({ d3Object: Array.isArray(o) && o.length === 1 ? o : this.state.d3Object });
-  }
-
-  onChange = (newValue) => {
-    const { row } = this.AceEditor.editor.selection.getCursor();
-    this.setState({ yamlText: newValue });
-    if (!Ryaml.isJunkLine({ line: newValue.split('\n')[row] }))
-      this.setState({ lineNo: row - new Ryaml(newValue).countJunkLine({ lineNo: row }) });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.yamlText !== this.state.yamlText
-      || JSON.stringify(nextState.d3Object) !== JSON.stringify(this.state.d3Object)
-      || nextState.lineNo !== this.state.lineNo
-      || this.state.firstTime
-    ) {
-      if (nextProps.loader) {
-        nextProps.loader.show();
-      }
-      return true;
-    }
-    return false;
-  }
-
-  onCursorChange = (selection) => {
-    const { row } = this.AceEditor.editor.selection.getCursor();
-    if (!Ryaml.isJunkLine({ line: this.state.yamlText.split('\n')[row] })) {
-      const lineNo = row - new Ryaml(this.state.yamlText).countJunkLine({ lineNo: row });
-      this.setState({ lineNo });
-    }
+    this.setState({
+      d3Object: Array.isArray(o) && o.length === 1 ? o : this.state.d3Object,
+      shouldRenderD3Object: false
+    });
+    this.props.loader.hide();
   }
 
   render() {
@@ -77,7 +81,6 @@ class Workbench extends React.Component {
             <D3Tree 
               containerRect={this.state.containerRect}
               dataObject={this.state.d3Object}
-              loader={this.props.loader}
             />
           </ReflexElement>
           <ReflexSplitter className="seperator"/>

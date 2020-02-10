@@ -7,25 +7,25 @@ import './styles.css';
 class SpinLoader extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { shown: props.enabled };
+    this.state = { shown: props.enabled, semaphore: null };
   }
 
-  show() {
-    this.setState({ shown: true });
+  componentDidUpdate() {
+    if (this.state.semaphore) {
+      this.state.semaphore();
+      this.setState({ semaphore: null });
+    }
   }
 
-  hide() {
-    this.setState({ shown: false });
-  }
+  show(f) { this.setState({ shown: true, semaphore: f }) }
+
+  hide(f) { this.setState({ shown: false, semaphore: f }) }
 
   render() {
     return (
       <Spinner
-        className={classNames([
-          'spinner',
-          !this.state.shown && 'hidden'
-        ])}
-        name="cube-grid"
+        className={classNames([ 'spinner', !this.state.shown && 'hidden' ])}
+        name="double-bounce"
         fadeIn="none"
       />
     )

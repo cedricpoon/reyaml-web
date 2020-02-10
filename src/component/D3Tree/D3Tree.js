@@ -3,19 +3,6 @@ import PropTypes from 'prop-types';
 import Tree from 'react-d3-tree';
 
 class D3Tree extends React.Component {
-  _rendered() {
-    if (this.props.loader)
-      this.props.loader.hide();
-  }
-
-  componentDidMount() {
-    this._rendered();
-  }
-
-  componentDidUpdate() {
-    this._rendered();
-  }
-  
   render() {
     const { containerRect, dataObject } = this.props;
     return (
@@ -45,11 +32,7 @@ D3Tree.propTypes = {
   dataObject: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array
-  ]).isRequired,
-  loader: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.object
-  ])
+  ]).isRequired
 };
 
 export default D3Tree;
