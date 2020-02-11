@@ -15,7 +15,7 @@ class Workbench extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      yamlText: '', 
+      yaml: '', 
       d3Object: { name: props.t('treePlaceholder') }, 
       lineNo: 0,
       shouldRenderD3Object: false
@@ -35,41 +35,39 @@ class Workbench extends React.Component {
       setTimeout(() => { this.renderD3Object() })
   }
 
-  onChange = (newValue) => {
+  onChange = newValue => {
     const { row } = this.AceEditor.editor.selection.getCursor();
-    let lineNo = this.state.lineNo;
-    if (!Ryaml.isJunkLine({ line: newValue.split('\n')[row] }))
-      lineNo = row - new Ryaml(newValue).countJunkLine({ lineNo: row });
     this.props.loader.show(() => {
-      this.setState({ 
-        yamlText: newValue,
-        lineNo,
-        shouldRenderD3Object: true,
-      });
+      this.setState({ yaml: newValue, row, shouldRenderD3Object: true });
     });
   }
 
   onCursorChange = () => {
     const { row } = this.AceEditor.editor.selection.getCursor();
-    if (!Ryaml.isJunkLine({ line: this.state.yamlText.split('\n')[row] })) {
-      const lineNo = row - new Ryaml(this.state.yamlText).countJunkLine({ lineNo: row });
-      if (lineNo !== this.state.lineNo)
-        this.props.loader.show(() => {
-          this.setState({ lineNo, shouldRenderD3Object: true });
-        });
-    }
+    if (row !== this.state.row)
+      this.props.loader.show(() => {
+        this.setState({ row, shouldRenderD3Object: true });
+      });
   }
 
   renderD3Object = () => {
-    const o = new Ryaml(this.state.yamlText)
-      .toRjson({ profile: 'd3Tree' })
-      .markLine({ lineNo: this.state.lineNo })
-      .truncate({ lineNo: this.state.lineNo, level: 2, siblingSize: 2 })
-      .toD3({ profile: 'd3Tree' });
-    this.setState({
-      d3Object: Array.isArray(o) && o.length === 1 ? o : this.state.d3Object,
-      shouldRenderD3Object: false
-    });
+    const { yaml, row } = this.state;
+
+    if (!Ryaml.isJunkLine({ line: yaml.split('\n')[row] })) {
+      const lineNo = row - new Ryaml(this.state.yaml).countJunkLine({ lineNo: row });
+
+      const o = new Ryaml(yaml)
+        .toRjson({ profile: 'd3Tree' })
+        .markLine({ lineNo })
+        .truncate({ lineNo, level: 2, siblingSize: 2 })
+        .toD3({ profile: 'd3Tree' });
+
+      this.setState({
+        d3Object: Array.isArray(o) && o.length === 1 ? o : this.state.d3Object,
+        shouldRenderD3Object: false
+      });
+    }
+
     this.props.loader.hide();
   }
 
@@ -90,7 +88,7 @@ class Workbench extends React.Component {
               theme="chrome"
               onChange={this.onChange}
               onCursorChange={this.onCursorChange}
-              value={this.state.yamlText}
+              value={this.state.yaml}
               ref={c => { this.AceEditor = c; }}
               editorProps={{$blockScrolling: true}}
               height='100%'

@@ -25,7 +25,7 @@ class SpinLoader extends React.Component {
     return (
       <Spinner
         className={classNames([ 'spinner', !this.state.shown && 'hidden' ])}
-        name="double-bounce"
+        name="pulse"
         fadeIn="none"
       />
     )
