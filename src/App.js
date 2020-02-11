@@ -2,7 +2,7 @@ import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 
 import i18n from 'i18n';
-import { Workbench } from 'hoc';
+import { AppFrame } from 'hoc';
 import { Spinner } from 'component';
 
 class App extends React.Component {
@@ -19,7 +19,7 @@ class App extends React.Component {
             enabled={false}
             ref={ref => !this.state.loader && this.setState({ loader: ref })}
           />
-          <Workbench loader={this.state.loader} />
+          <AppFrame loader={this.state.loader} />
         </React.Suspense>
       </I18nextProvider>
     )

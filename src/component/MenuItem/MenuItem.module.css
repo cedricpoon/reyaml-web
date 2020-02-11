@@ -1,0 +1,20 @@
+.menuItem {
+  margin: 0 10px;
+  padding: 2px 10px;
+  cursor: default;
+}
+
+.menuItem.button {
+  cursor: pointer;
+  transition: all ease-in-out .1s;
+}
+
+.menuItem.strong {
+  font-weight: bold;
+}
+
+.menuItem.button:hover, 
+.menuItem.button:active {
+  color: white;
+  background-color: grey;
+}

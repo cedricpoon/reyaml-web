@@ -1,0 +1,5 @@
+.toolbar {
+  display: flex;
+  background-color: whitesmoke;
+  border-bottom: 1px lightgray solid;
+}

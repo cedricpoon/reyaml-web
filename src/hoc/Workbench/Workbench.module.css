@@ -1,8 +1,6 @@
 .container {
   display: flex;
-  height: 100%;
-  width: 100%;
-  font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  flex: 1;
 }
 
 .seperator {

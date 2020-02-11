@@ -2,7 +2,8 @@ import React from 'react';
 import Spinner from 'react-spinkit';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './styles.css';
+
+import styles from './Spinner.module.css';
 
 class SpinLoader extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class SpinLoader extends React.Component {
   render() {
     return (
       <Spinner
-        className={classNames([ 'spinner', !this.state.shown && 'hidden' ])}
+        className={classNames([ styles.spinner, !this.state.shown && styles.hidden ])}
         name="pulse"
         fadeIn="none"
       />

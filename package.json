@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false NODE_ENV=production react-scripts build",
     "test": "./node_modules/.bin/eslint ./src && react-scripts test --watchAll=false --passWithNoTests",
     "eject": "react-scripts eject"
   },

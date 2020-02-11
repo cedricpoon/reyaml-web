@@ -1,15 +1,12 @@
 import React from 'react';
 import { Ryaml } from 'reyaml-core';
-import AceEditor from 'react-ace';
-import 'brace/mode/yaml';
-import 'brace/theme/chrome';
-import 'react-reflex/styles.css';
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex';
+import 'react-reflex/styles.css';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import { D3Tree } from 'component';
-import './styles.css';
+import { D3Tree, TextEditor } from 'component';
+import styles from './Workbench.module.css';
 
 class Workbench extends React.Component {
   constructor(props) {
@@ -73,26 +70,23 @@ class Workbench extends React.Component {
 
   render() {
     return (
-      <div className="container" ref={ref => (this.Container = ref)}>
+      <div className={styles.container} ref={ref => (this.Container = ref)}>
         <ReflexContainer orientation="vertical">
-          <ReflexElement className="left-pane">
-            <D3Tree 
+          <ReflexElement>
+            <D3Tree
               containerRect={this.state.containerRect}
               dataObject={this.state.d3Object}
             />
           </ReflexElement>
-          <ReflexSplitter className="seperator"/>
-          <ReflexElement className="right-pane">
-            <AceEditor
-              mode="yaml"
-              theme="chrome"
-              onChange={this.onChange}
-              onCursorChange={this.onCursorChange}
-              value={this.state.yaml}
-              ref={c => { this.AceEditor = c; }}
-              editorProps={{$blockScrolling: true}}
-              height='100%'
-              width='100%'
+          <ReflexSplitter className={styles.seperator}/>
+          <ReflexElement>
+            <TextEditor
+              text={this.state.yaml}
+              aceEditorProps={{
+                onChange: this.onChange,
+                onCursorChange: this.onCursorChange,
+                ref: r => { this.AceEditor = r }
+              }}
             />
           </ReflexElement>
         </ReflexContainer>
