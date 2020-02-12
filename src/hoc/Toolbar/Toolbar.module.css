@@ -1,5 +1,16 @@
 .toolbar {
   display: flex;
+  justify-content: space-between;
   background-color: whitesmoke;
   border-bottom: 1px lightgray solid;
+}
+
+.toolbar .left {
+  display: flex;
+  flex-direction: row;
+}
+
+.toolbar .right {
+  display: flex;
+  flex-direction: row-reverse;
 }

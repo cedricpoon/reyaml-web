@@ -1,0 +1,12 @@
+.colorTrans {
+	transition: color ease-in-out .2s;
+}
+
+.icon svg {
+  vertical-align: bottom;
+}
+
+.icon.medium svg {
+  width: 16px;
+  height: 16px;
+}

@@ -7,11 +7,14 @@ import styles from  './MenuItem.module.css';
 class MenuItem extends React.Component {
   render() {
     return (
-      <div className={classNames([
-        styles.menuItem,
-        this.props.button && styles.button,
-        this.props.strong && styles.strong
-      ])}>
+			<div
+				title={this.props.tooltip}
+				className={classNames([
+					styles.menuItem,
+					this.props.button && styles.button,
+					this.props.strong && styles.strong
+				])}
+			>
         {this.props.children}
       </div>
     )
@@ -24,7 +27,8 @@ MenuItem.propTypes = {
     PropTypes.element
   ]).isRequired,
   button: PropTypes.bool,
-  strong: PropTypes.bool
+	strong: PropTypes.bool,
+	tooltip: PropTypes.string
 };
 
 MenuItem.defaultProps = {};

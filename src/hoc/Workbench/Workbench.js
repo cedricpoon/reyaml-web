@@ -15,12 +15,12 @@ class Workbench extends React.Component {
       yaml: '', 
       d3Object: { name: props.t('treePlaceholder') }, 
       lineNo: 0,
-      shouldRenderD3Object: false
+			shouldRenderD3Object: false
     };
   }
 
   componentDidMount() {
-    this.setState({ containerRect: this.Container.getBoundingClientRect() });
+		this.setState({ containerRect: this.Container.getBoundingClientRect() });
     if (this.AceEditor) {
       this.AceEditor.editor.session.setNewLineMode('unix');
       this.AceEditor.editor.session.setOptions({ tabSize: 2, useSoftTabs: true });
@@ -34,7 +34,7 @@ class Workbench extends React.Component {
 
   onChange = newValue => {
     const { row } = this.AceEditor.editor.selection.getCursor();
-    this.props.loader.show(() => {
+    this.props.preAwait(() => {
       this.setState({ yaml: newValue, row, shouldRenderD3Object: true });
     });
   }
@@ -42,14 +42,14 @@ class Workbench extends React.Component {
   onCursorChange = () => {
     const { row } = this.AceEditor.editor.selection.getCursor();
     if (row !== this.state.row)
-      this.props.loader.show(() => {
+      this.props.preAwait(() => {
         this.setState({ row, shouldRenderD3Object: true });
       });
   }
 
   renderD3Object = () => {
-    const { yaml, row } = this.state;
-
+		const { yaml, row } = this.state;
+		
     if (!Ryaml.isJunkLine({ line: yaml.split('\n')[row] })) {
       const lineNo = row - new Ryaml(this.state.yaml).countJunkLine({ lineNo: row });
 
@@ -59,13 +59,14 @@ class Workbench extends React.Component {
         .truncate({ lineNo, level: 2, siblingSize: 2 })
         .toD3({ profile: 'd3Tree' });
 
+			this.props.postLint(Array.isArray(o) && o.length === 1);
+
       this.setState({
         d3Object: Array.isArray(o) && o.length === 1 ? o : this.state.d3Object,
-        shouldRenderD3Object: false
+				shouldRenderD3Object: false
       });
     }
-
-    this.props.loader.hide();
+    this.props.postAwait();
   }
 
   render() {
@@ -97,10 +98,17 @@ class Workbench extends React.Component {
 
 Workbench.propTypes = {
   t: PropTypes.func.isRequired,
-  loader: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.object
-  ])
+	preAwait: PropTypes.func,
+	postAwait: PropTypes.func,
+	postLint: PropTypes.func
+};
+
+const mockf = () => {};
+
+Workbench.defaultProps = {
+	preAwait: mockf,
+	postAwait: mockf,
+	postLint: mockf
 };
 
 export default withTranslation()(Workbench);

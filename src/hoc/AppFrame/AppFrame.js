@@ -5,11 +5,28 @@ import { Toolbar, Workbench } from 'hoc';
 import styles from './AppFrame.module.css';
 
 class AppFrame extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { toolbar: null };
+	}
+
   render() {
     return (
       <div className={styles.appFrame}>
-        <Toolbar />
-        <Workbench loader={this.props.loader} />
+				<Toolbar 
+					ref={r => { if (!this.state.toolbar) this.setState({ toolbar: r }) }} 
+				/>
+				<Workbench
+					preAwait={resolve => {
+						this.props.loader.show(resolve);
+					}}
+					postAwait={resolve => {
+						this.props.loader.hide(resolve);
+					}}
+					postLint={lint => {
+						if (this.state.toolbar) this.state.toolbar.setLint(lint);
+					}}
+				/>
       </div>
     );
   }
