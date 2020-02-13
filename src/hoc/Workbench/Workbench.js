@@ -13,7 +13,10 @@ class Workbench extends React.Component {
     super(props);
     this.state = { 
       yaml: '', 
-      d3Object: { name: props.t('treePlaceholder') }, 
+      d3Object: { 
+				name: `${process.env.REACT_APP_NAME}-v${process.env.REACT_APP_VERSION}`,
+				attributes: { "": props.t('tree-placeholder') }
+			}, 
       lineNo: 0,
 			shouldRenderD3Object: false
     };

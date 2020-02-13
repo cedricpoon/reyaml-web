@@ -2,7 +2,9 @@
   "name": "reyaml-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://cedricpoon.github.io/reyaml-web",
+	"homepage": "https://cedricpoon.github.io/reyaml-web",
+	"author": "Cedric Poon <cedric@poons.me>",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
@@ -25,9 +27,9 @@
     "reyaml-core": "^1.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-		"build": "GENERATE_SOURCEMAP=false NODE_ENV=production react-scripts build",
-		"predeploy": "npm run build",
+    "start": "source ./script/export.sh && react-scripts start",
+		"build": "source ./script/export.sh && react-scripts build",
+		"predeploy": "GENERATE_SOURCEMAP=false npm run build",
 		"deploy": "./node_modules/.bin/gh-pages -d ./build",
     "test": "./node_modules/.bin/eslint ./src && react-scripts test --watchAll=false --passWithNoTests",
     "eject": "react-scripts eject"

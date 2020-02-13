@@ -1,0 +1,14 @@
+.dropdownMenu {
+	background-color: whitesmoke;
+	border: 1px lightgray solid;
+	border-radius: 0 0 5px 5px;
+	padding: 4px 0;
+	min-width: 150px;
+	width: max-content;
+}
+
+.lineBreak {
+	width: 100%;
+	border-bottom: thin lightgrey dashed;
+	margin: 4px 0;
+}
