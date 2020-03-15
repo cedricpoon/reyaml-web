@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "81923f314e1fd81c2b15cff7f8cd0727",
+    "revision": "6244fcedffa78ddeb378fc70e8ad39e5",
     "url": "/reyaml-web/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/reyaml-web/static/css/2.a453beb8.chunk.css"
   },
   {
-    "revision": "c7eb741e4e3ba8bbd412",
+    "revision": "0e68c5aa4e6fc9fcbf5d",
     "url": "/reyaml-web/static/css/main.dd146d06.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/reyaml-web/static/js/2.e54b619e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c7eb741e4e3ba8bbd412",
-    "url": "/reyaml-web/static/js/main.3b0f7d38.chunk.js"
+    "revision": "0e68c5aa4e6fc9fcbf5d",
+    "url": "/reyaml-web/static/js/main.50087115.chunk.js"
   },
   {
     "revision": "5aecef29722785a1a454",
