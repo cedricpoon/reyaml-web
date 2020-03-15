@@ -1,0 +1,10 @@
+{
+	"tree-placeholder": "Please construct YAML on the editor",
+	"toolbar-file": "File",
+	"toolbar-edit": "Edit",
+	"toolbar-view": "View",
+	"toolbar-help": "Help",
+	"toolbar-lint-success": "YAML transformed successfully",
+	"toolbar-lint-failure": "Unsupported/malformed YAML",
+	"toolbar-settings": "Settings"
+}
