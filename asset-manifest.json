@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/reyaml-web/static/css/main.dd146d06.chunk.css",
-    "main.js": "/reyaml-web/static/js/main.50087115.chunk.js",
+    "main.js": "/reyaml-web/static/js/main.234f1d26.chunk.js",
     "runtime-main.js": "/reyaml-web/static/js/runtime-main.6a1ff2db.js",
     "static/css/2.a453beb8.chunk.css": "/reyaml-web/static/css/2.a453beb8.chunk.css",
-    "static/js/2.e54b619e.chunk.js": "/reyaml-web/static/js/2.e54b619e.chunk.js",
+    "static/js/2.55ce9986.chunk.js": "/reyaml-web/static/js/2.55ce9986.chunk.js",
     "index.html": "/reyaml-web/index.html",
-    "precache-manifest.b3cd6ac80e33926e95642a969f3994a7.js": "/reyaml-web/precache-manifest.b3cd6ac80e33926e95642a969f3994a7.js",
+    "precache-manifest.e1c8c13568070dd79dcdf23096d50150.js": "/reyaml-web/precache-manifest.e1c8c13568070dd79dcdf23096d50150.js",
     "service-worker.js": "/reyaml-web/service-worker.js",
-    "static/js/2.e54b619e.chunk.js.LICENSE.txt": "/reyaml-web/static/js/2.e54b619e.chunk.js.LICENSE.txt"
+    "static/js/2.55ce9986.chunk.js.LICENSE.txt": "/reyaml-web/static/js/2.55ce9986.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.6a1ff2db.js",
     "static/css/2.a453beb8.chunk.css",
-    "static/js/2.e54b619e.chunk.js",
+    "static/js/2.55ce9986.chunk.js",
     "static/css/main.dd146d06.chunk.css",
-    "static/js/main.50087115.chunk.js"
+    "static/js/main.234f1d26.chunk.js"
   ]
 }

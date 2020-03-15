@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/reyaml-web/precache-manifest.b3cd6ac80e33926e95642a969f3994a7.js"
+  "/reyaml-web/precache-manifest.e1c8c13568070dd79dcdf23096d50150.js"
 );
 
 self.addEventListener('message', (event) => {
