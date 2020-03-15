@@ -2,8 +2,8 @@
   "name": "reyaml-web",
   "version": "0.1.0",
   "private": true,
-	"homepage": "https://cedricpoon.github.io/reyaml-web",
-	"author": "Cedric Poon <cedric@poons.me>",
+  "homepage": "https://cedricpoon.github.io/reyaml-web",
+  "author": "Cedric Poon <cedric@poons.me>",
   "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -21,16 +21,19 @@
     "react-dom": "^16.12.0",
     "react-i18next": "^11.3.1",
     "react-icons": "^3.9.0",
+    "react-redux": "^7.2.0",
     "react-reflex": "^3.0.22",
-    "react-scripts": "3.3.1",
+    "react-scripts": "^3.4.0",
     "react-spinkit": "^3.0.0",
-    "reyaml-core": "^1.0.4"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "reyaml-core": "^1.0.5"
   },
   "scripts": {
     "start": "source ./script/export.sh && react-scripts start",
-		"build": "source ./script/export.sh && react-scripts build",
-		"predeploy": "GENERATE_SOURCEMAP=false npm run build",
-		"deploy": "./node_modules/.bin/gh-pages -d ./build",
+    "build": "source ./script/export.sh && react-scripts build",
+    "predeploy": "GENERATE_SOURCEMAP=false npm run build",
+    "deploy": "./node_modules/.bin/gh-pages -d ./build",
     "test": "./node_modules/.bin/eslint ./src && react-scripts test --watchAll=false --passWithNoTests",
     "eject": "react-scripts eject"
   },

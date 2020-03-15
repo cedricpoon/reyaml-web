@@ -2,18 +2,13 @@ import React from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { IoIosSettings, IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
+import { connect } from 'react-redux'
 
+import { lint } from 'actions/enum';
 import { MenuItem, Icon, DropdownMenu } from 'component';
 import styles from './Toolbar.module.css';
 
 class Toolbar extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { lint: true };
-	}	
-
-	setLint(lint) { this.setState({ lint }) }
-
 	render() {
 		const { t } = this.props;
 
@@ -74,10 +69,10 @@ class Toolbar extends React.Component {
 				</section>
 				<section className={styles.right}>
 					<MenuItem 
-						tooltip={this.state.lint ? t('toolbar-lint-success') : t('toolbar-lint-failure')}
+						tooltip={this.props.lint ? t('toolbar-lint-success') : t('toolbar-lint-failure')}
 					>
-						<Icon color={this.state.lint ? 'darkgreen' : 'crimson'}>
-							{this.state.lint ? <IoIosCheckmarkCircle /> : <IoIosCloseCircle />}
+						<Icon color={this.props.lint ? 'darkgreen' : 'crimson'}>
+							{this.props.lint ? <IoIosCheckmarkCircle /> : <IoIosCloseCircle />}
 						</Icon>
 					</MenuItem>
 					<MenuItem button tooltip={t('toolbar-settings')}>
@@ -89,10 +84,17 @@ class Toolbar extends React.Component {
 	}
 }
 
+const mapStateToProps = (state, _ownProps) => ({
+  lint: state.lint === lint.OK
+})
+
 Toolbar.propTypes = {
-	t: PropTypes.func.isRequired
+	t: PropTypes.func.isRequired,
+	lint: PropTypes.bool
 };
 
-Toolbar.defaultProps = {};
+Toolbar.defaultProps = {
+	lint: true
+};
 
-export default withTranslation(null, { withRef: true })(Toolbar);
+export default withTranslation(null, { withRef: true })(connect(mapStateToProps, null)(Toolbar));

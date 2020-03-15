@@ -6,26 +6,15 @@ import classNames from 'classnames';
 import styles from './Spinner.module.css';
 
 class SpinLoader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { shown: props.enabled, semaphore: null };
-  }
-
   componentDidUpdate() {
-    if (this.state.semaphore) {
-      this.state.semaphore();
-      this.setState({ semaphore: null });
-    }
+    if (this.props.updated)
+      this.props.updated();
   }
-
-  show(f) { this.setState({ shown: true, semaphore: f }) }
-
-  hide(f) { this.setState({ shown: false, semaphore: f }) }
 
   render() {
     return (
       <Spinner
-        className={classNames([ styles.spinner, !this.state.shown && styles.hidden ])}
+        className={classNames([ styles.spinner, !this.props.enabled && styles.hidden ])}
         name="pulse"
         fadeIn="none"
       />
@@ -34,7 +23,8 @@ class SpinLoader extends React.Component {
 }
 
 SpinLoader.propTypes = {
-  enabled: PropTypes.bool
+  enabled: PropTypes.bool,
+  updated: PropTypes.func
 };
 
 SpinLoader.defaultProps = {

@@ -1,44 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 
+import { setAppStatus } from 'actions';
+import { appStatus } from 'actions/enum';
+import { Spinner } from 'component';
 import { Toolbar, Workbench } from 'hoc';
 import styles from './AppFrame.module.css';
 
 class AppFrame extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { toolbar: null };
-	}
-
   render() {
     return (
       <div className={styles.appFrame}>
-				<Toolbar 
-					ref={r => { if (!this.state.toolbar) this.setState({ toolbar: r }) }} 
-				/>
-				<Workbench
-					preAwait={resolve => {
-						this.props.loader.show(resolve);
-					}}
-					postAwait={resolve => {
-						this.props.loader.hide(resolve);
-					}}
-					postLint={lint => {
-						if (this.state.toolbar) this.state.toolbar.setLint(lint);
-					}}
-				/>
+				<Toolbar/>
+        <Workbench/>
+        <Spinner
+          enabled={
+            this.props.appStatus === appStatus.INIT_LOADING || 
+            this.props.appStatus === appStatus.LOADING
+          }
+          updated={() => {
+            if (this.props.appStatus === appStatus.INIT_LOADING)
+              this.props.spinnerDidUpdate();
+          }}
+        />
       </div>
     );
   }
 }
 
 AppFrame.propTypes = {
-  loader: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.object
-  ])
+  appStatus: PropTypes.oneOf(Object.values(appStatus)).isRequired,
+  spinnerDidUpdate: PropTypes.func.isRequired
 };
 
-AppFrame.defaultProps = {};
+const mapDispatchToProps = dispatch => ({
+  spinnerDidUpdate: () => dispatch(setAppStatus(appStatus.LOADING))
+});
 
-export default AppFrame;
+const mapStateToProps = state => ({
+  appStatus: state.appStatus
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppFrame);

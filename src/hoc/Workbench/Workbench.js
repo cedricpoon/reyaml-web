@@ -4,7 +4,10 @@ import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex';
 import 'react-reflex/styles.css';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 
+import { setAppStatus, setLint } from 'actions';
+import { appStatus, lint } from 'actions/enum'
 import { D3Tree, TextEditor } from 'component';
 import styles from './Workbench.module.css';
 
@@ -31,23 +34,22 @@ class Workbench extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.shouldRenderD3Object)
+    if (this.state.shouldRenderD3Object && !this.state.updateLock)
       setTimeout(() => { this.renderD3Object() })
   }
 
   onChange = newValue => {
     const { row } = this.AceEditor.editor.selection.getCursor();
-    this.props.preAwait(() => {
-      this.setState({ yaml: newValue, row, shouldRenderD3Object: true });
-    });
+    this.props.startLoading();
+    this.setState({ yaml: newValue, row, shouldRenderD3Object: true })
   }
 
   onCursorChange = () => {
     const { row } = this.AceEditor.editor.selection.getCursor();
-    if (row !== this.state.row)
-      this.props.preAwait(() => {
-        this.setState({ row, shouldRenderD3Object: true });
-      });
+    if (row !== this.state.row) {
+      this.props.startLoading();
+      this.setState({ row, shouldRenderD3Object: true });
+    }
   }
 
   renderD3Object = () => {
@@ -62,14 +64,15 @@ class Workbench extends React.Component {
         .truncate({ lineNo, level: 2, siblingSize: 2 })
         .toD3({ profile: 'd3Tree' });
 
-			this.props.postLint(Array.isArray(o) && o.length === 1);
+			this.props.linter(Array.isArray(o) && o.length === 1);
 
       this.setState({
         d3Object: Array.isArray(o) && o.length === 1 ? o : this.state.d3Object,
 				shouldRenderD3Object: false
       });
     }
-    this.props.postAwait();
+    
+    this.props.completeLoading();
   }
 
   render() {
@@ -101,17 +104,20 @@ class Workbench extends React.Component {
 
 Workbench.propTypes = {
   t: PropTypes.func.isRequired,
-	preAwait: PropTypes.func,
-	postAwait: PropTypes.func,
-	postLint: PropTypes.func
+  startLoading: PropTypes.func.isRequired,
+  completeLoading: PropTypes.func.isRequired,
+  linter: PropTypes.func.isRequired,
+  mutex: PropTypes.bool
 };
 
-const mockf = () => {};
+const mapStateToProps = state => ({
+  updateLock: state.appStatus === appStatus.INIT_LOADING
+})
 
-Workbench.defaultProps = {
-	preAwait: mockf,
-	postAwait: mockf,
-	postLint: mockf
-};
+const mapDispatchToProps = (dispatch, _ownProps) => ({
+  startLoading: () => dispatch(setAppStatus(appStatus.INIT_LOADING)),
+  completeLoading: () => dispatch(setAppStatus(appStatus.NORMAL)),
+  linter: isGood => dispatch(setLint(isGood ? lint.OK : lint.ERROR))
+})
 
-export default withTranslation()(Workbench);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Workbench));
