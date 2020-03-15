@@ -30,8 +30,8 @@
     "reyaml-core": "^1.0.5"
   },
   "scripts": {
-    "start": "source ./script/export.sh && react-scripts start",
-    "build": "source ./script/export.sh && react-scripts build",
+    "start": ". ./script/export.sh && react-scripts start",
+    "build": ". ./script/export.sh && react-scripts build",
     "predeploy": "GENERATE_SOURCEMAP=false npm run build",
     "deploy": "./node_modules/.bin/gh-pages -d ./build",
     "test": "./node_modules/.bin/eslint ./src && react-scripts test --watchAll=false --passWithNoTests",
