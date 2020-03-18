@@ -1,0 +1,16 @@
+name: status check
+on:
+  pull_request:
+    types: [ assigned, opened, synchronize, reopened ]
+    branches: [ master ]
+jobs:
+  ci-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - run: npm ci
+      - run: npm test
