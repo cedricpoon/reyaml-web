@@ -1,4 +1,6 @@
 # reyaml-web
+![Build and Deploy](https://github.com/cedricpoon/reyaml-web/workflows/Build%20and%20Deploy/badge.svg)
+
 React.js App for YAML Visualisation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
