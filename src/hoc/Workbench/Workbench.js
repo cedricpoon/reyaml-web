@@ -1,26 +1,23 @@
 import React from 'react';
-import { Ryaml } from 'reyaml-core';
 import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex';
 import 'react-reflex/styles.css';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 
-import { setAppStatus, setLint } from 'actions';
-import { appStatus, lint } from 'actions/enum'
+import { setAppStatus, compileD3Object, setYaml, updateCursor } from 'actions';
+import { appStatus } from 'actions/enum'
 import { D3Tree, TextEditor } from 'component';
 import styles from './Workbench.module.css';
 
 class Workbench extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      yaml: '', 
-      d3Object: { 
+    this.state = {
+      defaultD3Object: { 
 				name: `${process.env.REACT_APP_NAME}-v${process.env.REACT_APP_VERSION}`,
 				attributes: { "": props.t('tree-placeholder') }
-			}, 
-      lineNo: 0,
+			},
 			shouldRenderD3Object: false
     };
   }
@@ -34,44 +31,53 @@ class Workbench extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.AceEditor) {
+      const anchor = this.AceEditor.editor.selection.getSelectionAnchor();
+      const cursor = {
+        row: this.props.row,
+        column: this.props.resetSelectionRange ? 0 : this.AceEditor.editor.selection.getCursor().column
+      };
+      this.AceEditor.editor.selection.setSelectionRange({
+        start: this.props.resetSelectionRange ? cursor : anchor,
+        end: cursor
+      })
+      if (this.props.resetSelectionRange) {
+        this.AceEditor.editor.resize(true);
+        this.AceEditor.editor.scrollToLine(this.props.row, true, false);
+      }
+    }
     if (this.state.shouldRenderD3Object && !this.state.updateLock)
       setTimeout(() => { this.renderD3Object() })
   }
 
   onChange = newValue => {
-    const { row } = this.AceEditor.editor.selection.getCursor();
-    this.props.startLoading();
-    this.setState({ yaml: newValue, row, shouldRenderD3Object: true })
+    if (this.AceEditor) {
+      const { row } = this.AceEditor.editor.selection.getCursor();
+      this.props.startLoading();
+      this.props.updateYaml(newValue);
+      this.props.updateRow(row);
+      this.setState({ shouldRenderD3Object: true })
+    }
   }
 
   onCursorChange = () => {
-    const { row } = this.AceEditor.editor.selection.getCursor();
-    if (row !== this.state.row) {
-      this.props.startLoading();
-      this.setState({ row, shouldRenderD3Object: true });
+    if (this.AceEditor) {
+      const { row } = this.AceEditor.editor.selection.getCursor();
+      if (row !== this.state.row) {
+        this.props.startLoading();
+        this.props.updateRow(row);
+        this.setState({ shouldRenderD3Object: true });
+      }
     }
   }
 
-  renderD3Object = () => {
-		const { yaml, row } = this.state;
-		
-    if (!Ryaml.isJunkLine({ line: yaml.split('\n')[row] })) {
-      const lineNo = row - new Ryaml(this.state.yaml).countJunkLine({ lineNo: row });
-
-      const o = new Ryaml(yaml)
-        .toRjson({ profile: 'd3Tree' })
-        .markLine({ lineNo })
-        .truncate({ lineNo, level: 2, siblingSize: 2 })
-        .toD3({ profile: 'd3Tree' });
-
-			this.props.linter(Array.isArray(o) && o.length === 1);
-
-      this.setState({
-        d3Object: Array.isArray(o) && o.length === 1 ? o : this.state.d3Object,
-				shouldRenderD3Object: false
-      });
+  renderD3Object = async () => {
+    try {
+      await this.props.compileD3Object({ yaml: this.props.yaml, row: this.props.row });
+    } catch (error) {
+      // compilation error handled and shown in toolbar
     }
-    
+    this.setState({ shouldRenderD3Object: false });
     this.props.completeLoading();
   }
 
@@ -82,13 +88,13 @@ class Workbench extends React.Component {
           <ReflexElement>
             <D3Tree
               containerRect={this.state.containerRect}
-              dataObject={this.state.d3Object}
+              dataObject={this.props.d3Object || this.state.defaultD3Object}
             />
           </ReflexElement>
           <ReflexSplitter className={styles.seperator}/>
           <ReflexElement>
             <TextEditor
-              text={this.state.yaml}
+              text={this.props.yaml}
               aceEditorProps={{
                 onChange: this.onChange,
                 onCursorChange: this.onCursorChange,
@@ -106,18 +112,30 @@ Workbench.propTypes = {
   t: PropTypes.func.isRequired,
   startLoading: PropTypes.func.isRequired,
   completeLoading: PropTypes.func.isRequired,
-  linter: PropTypes.func.isRequired,
-  mutex: PropTypes.bool
+  compileD3Object: PropTypes.func.isRequired,
+  updateYaml: PropTypes.func.isRequired,
+  updateRow: PropTypes.func.isRequired,
+  d3Object: PropTypes.oneOfType([ PropTypes.array, PropTypes.object ]),
+  yaml: PropTypes.string,
+  row: PropTypes.number,
+  mutex: PropTypes.bool,
+  resetSelectionRange: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
-  updateLock: state.appStatus === appStatus.INIT_LOADING
+  updateLock: state.appStatus === appStatus.INIT_LOADING,
+  d3Object: state.context.d3Object,
+  yaml: state.context.yaml,
+  row: state.cursor.index,
+  resetSelectionRange: state.cursor.goto
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
   startLoading: () => dispatch(setAppStatus(appStatus.INIT_LOADING)),
   completeLoading: () => dispatch(setAppStatus(appStatus.NORMAL)),
-  linter: isGood => dispatch(setLint(isGood ? lint.OK : lint.ERROR))
+  compileD3Object: args => dispatch(compileD3Object(args)),
+  updateYaml: yaml => dispatch(setYaml(yaml)),
+  updateRow: row => dispatch(updateCursor({ index: row }))
 })
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Workbench));

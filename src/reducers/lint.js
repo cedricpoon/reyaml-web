@@ -1,6 +1,6 @@
-import { lint } from 'actions/enum'
+import { defaultState } from 'reducers';
 
-const currentLint = (state = lint.OK, action) => {
+const currentLint = (state = defaultState.lint, action) => {
   switch (action.type) {
     case 'SET_LINT':
       return action.status

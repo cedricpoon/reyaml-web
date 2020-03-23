@@ -1,0 +1,5 @@
+.card {
+  background-color: dimgray;
+  color: white;
+  composes: base from './styles/font.module.css'
+}

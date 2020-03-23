@@ -1,8 +1,8 @@
-import { appStatus } from 'actions/enum'
+import { defaultState } from 'reducers';
 
-const currentAppStatus = (state = appStatus.NORMAL, action) => {
+const currentAppStatus = (state = defaultState.appStatus, action) => {
   switch (action.type) {
-    case 'SET_APP_LOADING_STATUS':
+    case 'SET_APP_STATUS':
       return action.status
     default:
       return state

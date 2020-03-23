@@ -10,22 +10,22 @@ class MenuItem extends React.Component {
 		this.state = { active: props.active };
 	}
 
-	componentDidMount() { document.addEventListener('click', this.onClick, false) }
+	componentDidMount() { 
+		if (this.props.dropdown) document.addEventListener('click', this._onDropdownClick, false) 
+	}
 
-	componentWillUnmount() { document.removeEventListener('click', this.onClick, false) }
+	componentWillUnmount() { 
+		if (this.props.dropdown) document.removeEventListener('click', this._onDropdownClick, false) 
+	}
 
-	onClick = e => {
-		if (!this.props.disabled) {
-			if (this.props.dropdown)
-				this.setState({  active: this.self.contains(e.target) });
-			if (this.props.onClick) this.props.onClick(e);
-		}
+	_onDropdownClick = e => {
+		if (!this.props.disabled)
+			if (this.props.dropdown) this.setState({  active: this.dropdown.contains(e.target) });
 	}
 
   render() {
 		const base = (
 			<div
-				ref={r => { this.self = r }}
 				title={this.props.tooltip}
 				className={classNames([
 					styles.menuItem,
@@ -36,6 +36,7 @@ class MenuItem extends React.Component {
 					this.props.strong && styles.strong,
 					this.props.disabled && styles.disabled
 				])}
+				onClick={e => { if (this.props.onClick) this.props.onClick(e) }}
 			>
         {this.props.children}
       </div>
@@ -43,7 +44,7 @@ class MenuItem extends React.Component {
 
     if (this.props.dropdown && !this.props.disabled) {
 			return (
-				<span className={styles.relative}>
+				<span className={styles.relative} ref={r => { this.dropdown = r }} >
 					{base}
 					{this.state.active && (
 						<div className={classNames([

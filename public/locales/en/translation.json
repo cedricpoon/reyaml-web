@@ -1,10 +1,37 @@
 {
 	"tree-placeholder": "Please construct YAML on the editor",
+
 	"toolbar-file": "File",
 	"toolbar-edit": "Edit",
 	"toolbar-view": "View",
 	"toolbar-help": "Help",
 	"toolbar-lint-success": "YAML transformed successfully",
 	"toolbar-lint-failure": "Unsupported/malformed YAML",
-	"toolbar-settings": "Settings"
+	"toolbar-settings": "Settings",
+	"toolbar-file-new": "New YAML",
+	"toolbar-file-open": "Open YAML File…",
+	"toolbar-file-save": "Save",
+	"toolbar-file-saveas": "Save As…",
+	"toolbar-file-export-link": "Export Permalink",
+	"toolbar-file-export-diagram": "Export Diagram As…",
+	"toolbar-edit-undo": "Undo",
+	"toolbar-edit-redo": "Redo",
+	"toolbar-edit-cut": "Cut",
+	"toolbar-edit-copy": "Copy",
+	"toolbar-edit-paste": "Paste",
+	"toolbar-edit-find": "Find",
+	"toolbar-edit-replace": "Replace",
+	"toolbar-view-reset": "Reset Sections",
+	"toolbar-view-hide-yaml": "Hide YAML Editor",
+	"toolbar-view-hide-d3": "Hide D3 Tree Diagram",
+	"toolbar-help-report": "Report Issue",
+	"toolbar-help-github": "Visit Github Repository",
+
+	"alert-file-error": "Cannot load",
+	"alert-file-loaded": "loaded",
+	"alert-new-confirm": "Are you sure to reset and start new YAML?",
+	"alert-new-done": "Created new YAML",
+	"alert-save-done": "Saved in browser",
+	"alert-saveas-filename": "Filename",
+	"alert-saveas-done": "Saved as"
 }
