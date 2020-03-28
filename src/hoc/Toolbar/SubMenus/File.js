@@ -85,9 +85,9 @@ class File extends React.Component {
     return  (
       <DropdownMenu>
         <MenuItem button onClick={async () => {
-          if (window.confirm(this.props.t('alert-new-confirm'))) {
+          if (window.confirm(t('alert-new-confirm'))) {
             await this.props.resetContext();
-            toast(this.props.t('alert-new-done'));
+            toast(t('alert-new-done'));
           }
         }}>
           {t('toolbar-file-new')}
@@ -98,7 +98,7 @@ class File extends React.Component {
         <DropdownMenu.LineBreak />
         <MenuItem button onClick={e => {
           persistor.flush();
-          toast(this.props.t('alert-save-done'));
+          toast(t('alert-save-done'));
         }}>
           {t('toolbar-file-save')}
         </MenuItem>

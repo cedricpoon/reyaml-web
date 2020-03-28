@@ -34,5 +34,8 @@
 	"alert-save-done": "Saved in browser",
 	"alert-saveas-filename": "Filename",
 	"alert-saveas-done": "Saved as",
-	"alert-export-err": "SVG export error"
+	"alert-export-err": "SVG export error",
+
+	"url-issues": "https://github.com/cedricpoon/reyaml-web/issues",
+	"url-github": "https://github.com/cedricpoon/reyaml-web"
 }

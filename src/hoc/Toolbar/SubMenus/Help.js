@@ -8,8 +8,12 @@ class Help extends React.Component {
     const { t } = this.props;
     return  (
       <DropdownMenu>
-        <MenuItem button>{t('toolbar-help-report')}</MenuItem>
-        <MenuItem button>{t('toolbar-help-github')}</MenuItem>
+        <MenuItem button onClick={() => { window.open(t('url-issues')) }}>
+          {t('toolbar-help-report')}
+        </MenuItem>
+        <MenuItem button onClick={() => { window.open(t('url-github')) }}>
+          {t('toolbar-help-github')}
+        </MenuItem>
         <DropdownMenu.LineBreak />
         <MenuItem disabled>{`Version: ${process.env.REACT_APP_VERSION}`}</MenuItem>
         <MenuItem disabled>{`Author: ${process.env.REACT_APP_AUTHOR}`}</MenuItem>
