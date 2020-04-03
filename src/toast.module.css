@@ -3,3 +3,9 @@
   color: white;
   composes: base from './styles/font.module.css'
 }
+
+.darkCard {
+  composes: card;
+  color: white;
+  background-color: CadetBlue;
+}

@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 
-import { setAppStatus, compileD3Object, setYaml, updateCursor } from 'actions';
+import { setAppStatus, compileD3Object, setYaml, updateCursor, updateWorkbench } from 'actions';
 import { appStatus } from 'actions/enum'
 import { D3Tree, TextEditor } from 'component';
 import styles from './Workbench.module.css';
@@ -85,23 +85,33 @@ class Workbench extends React.Component {
     return (
       <div className={styles.container} ref={ref => (this.Container = ref)}>
         <ReflexContainer orientation="vertical">
-          <ReflexElement>
-            <D3Tree
-              containerRect={this.state.containerRect}
-              dataObject={this.props.d3Object || this.state.defaultD3Object}
-            />
-          </ReflexElement>
-          <ReflexSplitter className={styles.seperator}/>
-          <ReflexElement>
-            <TextEditor
-              text={this.props.yaml}
-              aceEditorProps={{
-                onChange: this.onChange,
-                onCursorChange: this.onCursorChange,
-                ref: r => { this.AceEditor = r }
-              }}
-            />
-          </ReflexElement>
+          {this.props.panelFlex.d3Tree > 0 && (
+            <ReflexElement flex={this.props.panelFlex.d3Tree}
+              onStopResize={({ component }) => { this.props.updatePanelFlex({ d3Tree: component.props.flex }) }}
+            >
+              <D3Tree
+                containerRect={this.state.containerRect}
+                dataObject={this.props.d3Object || this.state.defaultD3Object}
+              />
+            </ReflexElement>
+          )}
+          {!Object.values(this.props.panelFlex).some(flex => flex === 0) && (
+            <ReflexSplitter className={styles.seperator}/>
+          )}
+          {this.props.panelFlex.textEditor > 0 && (
+            <ReflexElement flex={this.props.panelFlex.textEditor}
+              onStopResize={({ component }) => { this.props.updatePanelFlex({ textEditor: component.props.flex }) }}
+            >
+              <TextEditor
+                text={this.props.yaml}
+                aceEditorProps={{
+                  onChange: this.onChange,
+                  onCursorChange: this.onCursorChange,
+                  ref: r => { this.AceEditor = r }
+                }}
+              />
+            </ReflexElement>
+          )}
         </ReflexContainer>
       </div>
     );
@@ -118,8 +128,9 @@ Workbench.propTypes = {
   d3Object: PropTypes.oneOfType([ PropTypes.array, PropTypes.object ]),
   yaml: PropTypes.string,
   row: PropTypes.number,
-  mutex: PropTypes.bool,
-  resetSelectionRange: PropTypes.bool
+  resetSelectionRange: PropTypes.bool,
+  panelFlex: PropTypes.object.isRequired,
+  updatePanelFlex: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -127,7 +138,8 @@ const mapStateToProps = state => ({
   d3Object: state.context.d3Object,
   yaml: state.context.yaml,
   row: state.cursor.index,
-  resetSelectionRange: state.cursor.goto
+  resetSelectionRange: state.cursor.goto,
+  panelFlex: state.workBench
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
@@ -135,7 +147,8 @@ const mapDispatchToProps = (dispatch, _ownProps) => ({
   completeLoading: () => dispatch(setAppStatus(appStatus.NORMAL)),
   compileD3Object: args => dispatch(compileD3Object(args)),
   updateYaml: yaml => dispatch(setYaml(yaml)),
-  updateRow: row => dispatch(updateCursor({ index: row }))
+  updateRow: row => dispatch(updateCursor({ index: row })),
+  updatePanelFlex: workBench => dispatch(updateWorkbench(workBench))
 })
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Workbench));

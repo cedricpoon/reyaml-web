@@ -8,7 +8,7 @@ const context = (state = defaultState.context, action) => {
       return { ...state, yaml: action.yaml }
     case 'SET_CONTEXT_ROW':
       return { ...state, row: action.row }
-    case 'REVOKE_CONTEXT':
+    case 'RESET_CONTEXT':
       return { ...state, ...defaultState.context }
     default:
       return state

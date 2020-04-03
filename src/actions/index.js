@@ -12,8 +12,20 @@ export const setD3Object = d3Object => ({ type: 'SET_CONTEXT_D3OBJECT', d3Object
 
 export const updateCursor = ({ index, goto }) => ({ type: 'UPDATE_CURSOR', index, goto: goto ? true : false });
 
+export const didShownBanner = () => ({ type: 'COMPLETE_BANNER' });
+
+export const updateVersion = version => ({ type: 'SET_VERSION', version });
+
+export const updateWorkbench = workBench => ({ type: 'SET_WORKBENCH', workBench });
+
+export const hideEditor = () => dispatch => { dispatch(updateWorkbench({ d3Tree: 1, textEditor: 0 })) }
+
+export const hideD3Tree = () => dispatch => { dispatch(updateWorkbench({ d3Tree: 0, textEditor: 1 })) }
+
+export const resetWorkbench = () => ({ type: 'RESET_WORKBENCH' });
+
 export const resetContext = () => dispatch => new Promise(resolve => {
-  dispatch({ type: 'REVOKE_CONTEXT' });
+  dispatch({ type: 'RESET_CONTEXT' });
   dispatch(setLint(lint.OK));
   resolve();
 })
