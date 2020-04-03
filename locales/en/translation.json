@@ -35,6 +35,8 @@
 	"alert-saveas-filename": "Filename",
 	"alert-saveas-done": "Saved as",
 	"alert-export-err": "SVG export error",
+	"alert-banner": "This application uses localStorage to save wip YAML and configs",
+	"alert-updated": "Updated",
 
 	"url-issues": "https://github.com/cedricpoon/reyaml-web/issues",
 	"url-github": "https://github.com/cedricpoon/reyaml-web"
