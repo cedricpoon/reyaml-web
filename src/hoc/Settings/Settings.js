@@ -48,7 +48,7 @@ class Settings extends React.Component {
             important 
             confirm={this.props.t('settings-erase-ls-confirm')}
             text={this.props.t('settings-erase-ls-btn')}
-            onClick={async () => { await persistor.purge(); window.open("/", "_self"); }} 
+            onClick={async () => { await persistor.purge(); window.open(`/${process.env.REACT_APP_NAME}`, "_self"); }} 
           />
         </section>
       </div>
