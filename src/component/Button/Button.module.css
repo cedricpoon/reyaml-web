@@ -1,0 +1,16 @@
+.root {
+  color: whitesmoke;
+  background-color: grey;
+  border: none;
+  padding: 5px 15px;
+  composes: base from '../../styles/font.module.css';
+}
+
+.root:hover {
+  opacity: .5;
+}
+
+.important {
+  color: whitesmoke;
+  background-color: indianred;
+}

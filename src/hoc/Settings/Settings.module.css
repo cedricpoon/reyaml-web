@@ -1,0 +1,46 @@
+.root {
+  min-height: 100%;
+  background-color: dimgray;
+  padding: 0 20px;
+  color: ghostwhite;
+}
+
+.link {
+  color: lightblue;
+}
+
+.root > section {
+  padding-bottom: 10px;
+}
+
+.root > section > * {
+  margin-top: 10px;
+}
+
+.root h1 {
+  padding-top: 20px;
+  font-size: 15px;
+}
+
+.root h2 {
+  font-size: 12px;
+  color: cornsilk;
+  font-weight: bold;
+}
+
+.root article {
+  font-size: 10px;
+  color: lightgrey;
+}
+
+.root code {
+  font-family: monospace;
+  color: bisque;
+}
+
+.root input {
+  padding: 4px 10px;
+  border: none;
+  background-color: grey;
+  color: ghostwhite;
+}

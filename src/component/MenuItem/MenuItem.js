@@ -20,7 +20,7 @@ class MenuItem extends React.Component {
 
 	_onDropdownClick = e => {
 		if (!this.props.disabled)
-			if (this.props.dropdown) this.setState({  active: this.dropdown.contains(e.target) });
+			if (this.props.dropdown) this.setState({ active: this.dropdown.contains(e.target) });
 	}
 
   render() {
@@ -30,8 +30,9 @@ class MenuItem extends React.Component {
 				className={classNames([
 					styles.menuItem,
 					!this.props.disabled && [
-						(this.props.button || this.props.dropdown) && styles.button,
+						(this.props.button || this.props.dropdown || this.props.radio) && styles.button,
 						this.props.dropdown && this.state.active && styles.active,
+						this.props.radio && this.props.active && styles.active
 					],
 					this.props.strong && styles.strong,
 					this.props.disabled && styles.disabled
@@ -68,6 +69,7 @@ MenuItem.propTypes = {
     PropTypes.element
   ]).isRequired,
 	button: PropTypes.bool,
+	radio: PropTypes.bool,
 	strong: PropTypes.bool,
 	tooltip: PropTypes.string,
 	dropdown: PropTypes.element,

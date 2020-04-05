@@ -14,6 +14,9 @@ class Help extends React.Component {
         <MenuItem button onClick={() => { window.open(t('url-github')) }}>
           {t('toolbar-help-github')}
         </MenuItem>
+        <MenuItem button onClick={() => { window.open(t('url-rc-github')) }}>
+          {t('toolbar-help-rc-github')}
+        </MenuItem>
         <DropdownMenu.LineBreak />
         <MenuItem disabled>{`Version: ${process.env.REACT_APP_VERSION}`}</MenuItem>
         <MenuItem disabled>{`Author: ${process.env.REACT_APP_AUTHOR}`}</MenuItem>

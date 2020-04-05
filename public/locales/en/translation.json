@@ -22,10 +22,11 @@
 	"toolbar-edit-find": "Find",
 	"toolbar-edit-replace": "Replace",
 	"toolbar-view-reset": "Reset Sections",
-	"toolbar-view-hide-yaml": "Hide YAML Editor",
-	"toolbar-view-hide-d3": "Hide D3 Tree Diagram",
+	"toolbar-view-hide-yaml": "Show Tree Diagram Only",
+	"toolbar-view-hide-d3": "Show YAML Editor Only",
 	"toolbar-help-report": "Report Issue",
 	"toolbar-help-github": "Visit Github Repository",
+	"toolbar-help-rc-github": "Learn more on reyaml-core",
 
 	"alert-file-error": "Cannot load",
 	"alert-file-loaded": "loaded",
@@ -38,6 +39,15 @@
 	"alert-banner": "This application uses localStorage to save wip YAML and configs",
 	"alert-updated": "Updated",
 
+	"settings-rc": "reyaml-core",
+	"settings-diagram-settings": "Diagram Settings",
+	"settings-global-settings": "Global Settings",
+	"settings-erase-ls": "Erase LocalStorage",
+	"settings-erase-ls-article": "Irreversible change on deleting all saved configs and wip YAML.",
+	"settings-erase-ls-confirm": "Are you sure to erase localStorage?",
+	"settings-erase-ls-btn": "Reset",
+
 	"url-issues": "https://github.com/cedricpoon/reyaml-web/issues",
-	"url-github": "https://github.com/cedricpoon/reyaml-web"
+	"url-github": "https://github.com/cedricpoon/reyaml-web",
+	"url-rc-github": "https://github.com/cedricpoon/reyaml-core"
 }

@@ -22,7 +22,13 @@ export const hideEditor = () => dispatch => { dispatch(updateWorkbench({ d3Tree:
 
 export const hideD3Tree = () => dispatch => { dispatch(updateWorkbench({ d3Tree: 0, textEditor: 1 })) }
 
+export const showSettings = () => dispatch => { dispatch(updateWorkbench({ settings: 1 })) }
+
+export const hideSettings = () => dispatch => { dispatch(updateWorkbench({ settings: 0 })) }
+
 export const resetWorkbench = () => ({ type: 'RESET_WORKBENCH' });
+
+export const updateDiagramSettings = diagram => ({ type: 'SET_DIAGRAM_SETTINGS', diagram });
 
 export const resetContext = () => dispatch => new Promise(resolve => {
   dispatch({ type: 'RESET_CONTEXT' });
@@ -37,14 +43,15 @@ export const updateContext = yaml => dispatch => new Promise(async resolve => {
   resolve();
 })
 
-export const compileD3Object = ({ yaml, row }) => dispatch => new Promise((resolve, reject) => {
+export const compileD3Object = ({ yaml, row }) => (dispatch, getState) => new Promise((resolve, reject) => {
   if (!Ryaml.isJunkLine({ line: yaml.split('\n')[row] })) {
     const lineNo = row - new Ryaml(yaml).countJunkLine({ lineNo: row });
+    const { renderHeight, renderWidth } = getState().settings.diagram;
 
     const o = new Ryaml(yaml)
       .toRjson({ profile: 'd3Tree' })
       .markLine({ lineNo })
-      .truncate({ lineNo, level: 2, siblingSize: 2 })
+      .truncate({ lineNo, level: renderHeight, siblingSize: renderWidth })
       .toD3({ profile: 'd3Tree' });
 
     dispatch(setLint(Array.isArray(o) && o.length === 1 ? lint.OK : lint.ERROR));

@@ -8,8 +8,14 @@ import { lint } from 'actions/enum';
 import { MenuItem, Icon } from 'component';
 import * as SubMenus from './SubMenus';
 import styles from './Toolbar.module.css';
+import { showSettings, hideSettings } from 'actions';
 
 class Toolbar extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { workBenchSnapshot: null }
+	}
+
 	render() {
 		const { t } = this.props;
 		return (
@@ -37,7 +43,11 @@ class Toolbar extends React.Component {
 							{this.props.lint ? <IoIosCheckmarkCircle /> : <IoIosCloseCircle />}
 						</Icon>
 					</MenuItem>
-					<MenuItem button tooltip={t('toolbar-settings')}>
+					<MenuItem radio
+						tooltip={t('toolbar-settings')} 
+						active={this.props.activeSettings}
+						onClick={this.props.activeSettings ? this.props.hideSettings : this.props.showSettings}
+					>
 						<Icon><IoIosSettings /></Icon>
 					</MenuItem>
 				</section>
@@ -46,17 +56,26 @@ class Toolbar extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, _ownProps) => ({
-  lint: state.lint === lint.OK
+const mapStateToProps = (state, ownProps) => ({
+	lint: state.lint === lint.OK,
+	activeSettings: state.workBench.settings > 0
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+	showSettings: () => dispatch(showSettings()),
+	hideSettings: () => dispatch(hideSettings())
 })
 
 Toolbar.propTypes = {
 	t: PropTypes.func.isRequired,
-	lint: PropTypes.bool
+	lint: PropTypes.bool,
+	activeSettings: PropTypes.bool,
+	hideSettings: PropTypes.func.isRequired,
+	showSettings: PropTypes.func.isRequired
 };
 
 Toolbar.defaultProps = {
 	lint: true
 };
 
-export default withTranslation(null, { withRef: true })(connect(mapStateToProps, null)(Toolbar));
+export default withTranslation(null, { withRef: true })(connect(mapStateToProps, mapDispatchToProps)(Toolbar));

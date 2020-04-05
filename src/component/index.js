@@ -8,4 +8,6 @@ export { default as MenuItem } from './MenuItem/MenuItem';
 
 export { default as Icon } from './Icon/Icon';
 
-export { default as DropdownMenu } from './DropdownMenu/DropdownMenu'
+export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
+
+export { default as Button } from './Button/Button';

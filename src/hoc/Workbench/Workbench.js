@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { setAppStatus, compileD3Object, setYaml, updateCursor, updateWorkbench } from 'actions';
 import { appStatus } from 'actions/enum'
 import { D3Tree, TextEditor } from 'component';
+import { Settings } from 'hoc';
 import styles from './Workbench.module.css';
 
 class Workbench extends React.Component {
@@ -95,7 +96,7 @@ class Workbench extends React.Component {
               />
             </ReflexElement>
           )}
-          {!Object.values(this.props.panelFlex).some(flex => flex === 0) && (
+          {this.props.panelFlex.textEditor && this.props.panelFlex.d3Tree && (
             <ReflexSplitter className={styles.seperator}/>
           )}
           {this.props.panelFlex.textEditor > 0 && (
@@ -111,6 +112,9 @@ class Workbench extends React.Component {
                 }}
               />
             </ReflexElement>
+          )}
+          {this.props.panelFlex.settings > 0 && (
+            <ReflexElement flex={this.props.panelFlex.settings}><Settings /></ReflexElement>
           )}
         </ReflexContainer>
       </div>
