@@ -46,8 +46,11 @@
 	"settings-erase-ls-article": "Irreversible change on deleting all saved configs and wip YAML.",
 	"settings-erase-ls-confirm": "Are you sure to erase localStorage?",
 	"settings-erase-ls-btn": "Reset",
+	"settings-editor-settings": "Editor Settings",
+	"settings-ace": "react-ace",
 
 	"url-issues": "https://github.com/cedricpoon/reyaml-web/issues",
 	"url-github": "https://github.com/cedricpoon/reyaml-web",
-	"url-rc-github": "https://github.com/cedricpoon/reyaml-core"
+	"url-rc-github": "https://github.com/cedricpoon/reyaml-core",
+	"url-ace-github": "https://github.com/securingsincity/react-ace"
 }

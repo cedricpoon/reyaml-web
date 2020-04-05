@@ -11,3 +11,5 @@ export { default as Icon } from './Icon/Icon';
 export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
 
 export { default as Button } from './Button/Button';
+
+export { default as Link } from './Link/Link';

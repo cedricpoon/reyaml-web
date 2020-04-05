@@ -21,7 +21,8 @@ export const defaultState = {
   banner: true,
   workBench: { d3Tree: 1, textEditor: 1, settings: 0 },
   settings: { 
-    diagram: { renderHeight: 2, renderWidth: 2 } 
+    diagram: { renderHeight: 2, renderWidth: 2, maxStringSize: 15 },
+    editor: { tabSize: 2 }
   }
 };
 

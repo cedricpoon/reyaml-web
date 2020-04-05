@@ -1,0 +1,11 @@
+.root {
+  color: lightskyblue
+}
+
+.root:hover {
+  opacity: .6;
+}
+
+.root:visited {
+  color: lightsteelblue;
+}

@@ -25,14 +25,13 @@ class Workbench extends React.Component {
 
   componentDidMount() {
 		this.setState({ containerRect: this.Container.getBoundingClientRect() });
-    if (this.AceEditor) {
-      this.AceEditor.editor.session.setNewLineMode('unix');
-      this.AceEditor.editor.session.setOptions({ tabSize: 2, useSoftTabs: true });
-    }
   }
 
   componentDidUpdate() {
     if (this.AceEditor) {
+      this.AceEditor.editor.session.setNewLineMode('unix');
+      this.AceEditor.editor.session.setOptions({ tabSize: this.props.tabSize, useSoftTabs: true });
+
       const anchor = this.AceEditor.editor.selection.getSelectionAnchor();
       const cursor = {
         row: this.props.row,
@@ -134,7 +133,8 @@ Workbench.propTypes = {
   row: PropTypes.number,
   resetSelectionRange: PropTypes.bool,
   panelFlex: PropTypes.object.isRequired,
-  updatePanelFlex: PropTypes.func.isRequired
+  updatePanelFlex: PropTypes.func.isRequired,
+  tabSize: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -143,7 +143,8 @@ const mapStateToProps = state => ({
   yaml: state.context.yaml,
   row: state.cursor.index,
   resetSelectionRange: state.cursor.goto,
-  panelFlex: state.workBench
+  panelFlex: state.workBench,
+  tabSize: state.settings.editor.tabSize
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
