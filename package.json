@@ -1,6 +1,6 @@
 {
   "name": "reyaml-web",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "private": true,
   "homepage": "https://cedricpoon.github.io/reyaml-web",
   "author": "Cedric Poon <cedric@poons.me>",
@@ -29,7 +29,7 @@
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "reyaml-core": "^1.0.5"
+    "reyaml-core": "^1.0.6"
   },
   "scripts": {
     "start": ". ./script/export.sh && react-scripts start",
