@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 
 import { setAppStatus, compileD3Object, setYaml, updateCursor, updateWorkbench } from 'actions';
 import { appStatus } from 'actions/enum'
+import { defaultState } from 'reducers';
 import { D3Tree, TextEditor } from 'component';
 import { Settings } from 'hoc';
 import styles from './Workbench.module.css';
@@ -30,7 +31,7 @@ class Workbench extends React.Component {
   componentDidUpdate() {
     if (this.AceEditor) {
       this.AceEditor.editor.session.setNewLineMode('unix');
-      this.AceEditor.editor.session.setOptions({ tabSize: this.props.tabSize, useSoftTabs: true });
+      this.AceEditor.editor.session.setOptions({ tabSize: this.props.settings.editor.tabSize, useSoftTabs: true });
 
       const anchor = this.AceEditor.editor.selection.getSelectionAnchor();
       const cursor = {
@@ -134,8 +135,12 @@ Workbench.propTypes = {
   resetSelectionRange: PropTypes.bool,
   panelFlex: PropTypes.object.isRequired,
   updatePanelFlex: PropTypes.func.isRequired,
-  tabSize: PropTypes.number.isRequired
+  settings: PropTypes.object
 };
+
+Workbench.defaultProps = {
+  settings: defaultState.settings
+}
 
 const mapStateToProps = state => ({
   updateLock: state.appStatus === appStatus.INIT_LOADING,
@@ -144,7 +149,7 @@ const mapStateToProps = state => ({
   row: state.cursor.index,
   resetSelectionRange: state.cursor.goto,
   panelFlex: state.workBench,
-  tabSize: state.settings.editor.tabSize
+  settings: state.settings
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
