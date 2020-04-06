@@ -28,6 +28,12 @@
   font-size: 10px;
   color: lightgrey;
   text-align: justify;
+  opacity: .25;
+  transition: opacity ease-in-out .2s;
+}
+
+.root article:hover {
+  opacity: 1;
 }
 
 .root code {
